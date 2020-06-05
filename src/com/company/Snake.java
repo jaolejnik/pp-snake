@@ -6,7 +6,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.TreeMap;
 
 enum Direction {
     LEFT,
@@ -64,13 +63,13 @@ public class Snake extends JPanel {
         int [] randPos = new int[2];
         Random rand = new Random();
 
-        int stepX =  Constants.GRID_AMOUNT_V - 2 * length;
-        int minX =  Constants.BIG_BORDER_X + length * Constants.GRID_SIZE;
+        int stepX =  Constants.GRID_AMOUNT_V - 4 * length;
+        int minX =  Constants.BIG_BORDER_X + 4 * Constants.GRID_SIZE;
         int randX = minX + rand.nextInt(stepX)*Constants.GRID_SIZE;
         randPos[0] = randX;
 
-        int stepY =  Constants.GRID_AMOUNT_H - 2 * length;
-        int minY =  Constants.BIG_BORDER_Y + length * Constants.GRID_SIZE;
+        int stepY =  Constants.GRID_AMOUNT_H - 4 * length;
+        int minY =  Constants.BIG_BORDER_Y + 4 * Constants.GRID_SIZE;
         int randY = minY + rand.nextInt(stepY)*Constants.GRID_SIZE;
         randPos[1] = randY;
 
@@ -151,7 +150,7 @@ public class Snake extends JPanel {
     }
 
     private boolean tailCollision(){
-        for(int i = 2; i < length; i++)
+        for(int i = 3; i < length; i++)
         {
             switch(direction)
             {
@@ -177,8 +176,44 @@ public class Snake extends JPanel {
         return false;
     }
 
+    private boolean obstacleCollision(ArrayList<int[]> obstacles)
+    {
+        for (int [] obstacle: obstacles)
+        {
+            switch(direction)
+            {
+                case LEFT:
+                    if ( obstacle[0] == head[0] - partSize
+                            && (obstacle[1] <= head[1]
+                            && head[1] <= obstacle[1] + obstacle[3] - partSize))
+                        return true;
+                    break;
+                case UP:
+                    if ( obstacle[1] == head[1] - partSize
+                            && (obstacle[0] <= head[0]
+                            && head[0] <= obstacle[0] + obstacle[2] - partSize))
+                        return true;
+                    break;
+                case RIGHT:
+                    if ( obstacle[0] == head[0] + partSize
+                            && (obstacle[1] <= head[1]
+                            && head[1] <= obstacle[1] + obstacle[3] - partSize))
+                        return true;
+                    break;
+                case DOWN:
+                    if ( obstacle[1] == head[1] + partSize
+                            && (obstacle[0] <= head[0]
+                            && head[0] <= obstacle[0] + obstacle[2] - partSize))
+                        return true;
+                    break;
+            }
+        }
+        return false;
+    }
+
     public void draw(Graphics g)
     {
+//        System.out.println(partSize);
         g.setColor(Color.lightGray);
         for(int i = 0; i < length; i++)
             g.fillRect(body.get(i)[0], body.get(i)[1], partSize-1, partSize-1);
@@ -194,9 +229,9 @@ public class Snake extends JPanel {
         head[1] += step[1];
     }
 
-    public boolean checkCollision(){
+    public boolean checkCollision(ArrayList<int[]> obstacles){
 
-        return wallCollision() || tailCollision();
+        return wallCollision() || tailCollision() || obstacleCollision(obstacles);
     }
 
     public boolean collect(Fruit fruit)
@@ -220,5 +255,7 @@ public class Snake extends JPanel {
         length += 1;
     }
 
+    public final int getLength() { return length; }
+    public final ArrayList<int[]> getBody() { return body; }
     public EventAdapter getEventAdapter(){ return controls; }
 }

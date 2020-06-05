@@ -1,23 +1,22 @@
 package com.company;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JPanel;
 
 public class Gameplay extends JPanel{
 
-    Snake snake = new Snake();
-    Fruit fruit = new Fruit();
-    GameBoard board = new GameBoard();
+    GameBoard board;
+    Snake snake;
+    Fruit fruit;
+    int points = 0;
     boolean gameRunning = true;
 
 
-    public Gameplay()
-    {
+    public Gameplay(){
+        snake = new Snake();
+        board = new GameBoard(snake.getBody());
+        fruit = new Fruit(snake.getBody());
         addKeyListener(snake.getEventAdapter());
         setFocusable(true);
         grabFocus();
@@ -39,24 +38,28 @@ public class Gameplay extends JPanel{
 
     public void draw(Graphics g)
     {
+
         board.drawGrid(g);
+        board.drawGridSectors(g);
+        board.drawObstacles(g);
         board.drawBorders(g);
+        board.drawPoints(g, points);
         snake.draw(g);
         fruit.draw(g);
         repaint();
-
     }
 
     private void update()
     {
-        if (snake.checkCollision())
+        if (snake.checkCollision(board.getObstacles()))
             gameRunning = false;
         else
             snake.move();
             if (snake.collect(fruit))
             {
                 snake.grow(1);
-                fruit = new Fruit();
+                points += 10;
+                fruit = new Fruit(snake.getBody());
             }
     }
 
@@ -68,6 +71,7 @@ public class Gameplay extends JPanel{
         final int TARGET_FPS = 10;
         final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
 
+        grabFocus();
         while (gameRunning)
         {
             long now = System.nanoTime();
@@ -82,7 +86,7 @@ public class Gameplay extends JPanel{
                 lastFpsTime = 0;
                 fps = 0;
             }
-            grabFocus();
+
             update();
 
             try{Thread.sleep( (lastLoopTime-System.nanoTime() + OPTIMAL_TIME)/1000000 );}

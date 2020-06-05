@@ -2,15 +2,31 @@ package com.company;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Fruit extends JFrame {
 
-    int [] position = new int[2];
+    int [] position;
 
-    public Fruit()
+    public Fruit(ArrayList<int[]> snakeBody)
     {
-        position = generateRandPos();
+        boolean possibleCollision = true;
+        while(possibleCollision)
+        {
+
+            position = generateRandPos();
+            boolean noCollision = true;
+            for (int [] part: snakeBody)
+            {
+                if (part[0] == position[0] && part[1] == position[1]) {
+                    noCollision = false;
+                    break;
+                }
+            }
+            if (noCollision)
+                possibleCollision = false;
+        }
     }
 
     private int [] generateRandPos()
