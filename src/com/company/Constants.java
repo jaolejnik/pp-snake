@@ -9,7 +9,7 @@ public class Constants {
     public static final int SMALL_BORDER_WIDTH = 860;
     public static final int SMALL_BORDER_HEIGHT = 60;
 
-    public static final int BIG_BORDER_X = 50;
+    public static final int BIG_BORDER_X = 75;
     public static final int BIG_BORDER_Y = 100;
     public static final int BIG_BORDER_WIDTH = 750;
     public static final int BIG_BORDER_HEIGHT = 750;

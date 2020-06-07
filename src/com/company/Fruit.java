@@ -8,8 +8,9 @@ import java.util.Random;
 public class Fruit extends JFrame {
 
     int [] position;
+    int size = Constants.GRID_SIZE;
 
-    public Fruit(ArrayList<int[]> snakeBody)
+    public Fruit(ArrayList<int[]> snakeBody,ArrayList<int[]> obstacles)
     {
         boolean possibleCollision = true;
         while(possibleCollision)
@@ -20,6 +21,16 @@ public class Fruit extends JFrame {
             for (int [] part: snakeBody)
             {
                 if (part[0] == position[0] && part[1] == position[1]) {
+                    noCollision = false;
+                    break;
+                }
+            }
+            for (int [] obstacle: obstacles)
+            {
+                if ( (obstacle[0] <= position[0]
+                        && position[0] <= obstacle[0] + obstacle[2])
+                    && (obstacle[1] <= position[1]
+                        && position[1] <= obstacle[1] + obstacle[3])) {
                     noCollision = false;
                     break;
                 }
@@ -49,7 +60,7 @@ public class Fruit extends JFrame {
 
     public void draw(Graphics g){
         g.setColor(Color.red);
-        g.fillRect(position[0], position[1], Constants.GRID_SIZE, Constants.GRID_SIZE);
+        g.fillRect(position[0], position[1], size, size);
     }
 
     public int[] getPosition() { return position; }

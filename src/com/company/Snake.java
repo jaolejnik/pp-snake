@@ -7,18 +7,6 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
-enum Direction {
-    LEFT,
-    UP,
-    RIGHT,
-    DOWN;
-
-    public static Direction generateRandDirection() {
-        Random rand = new Random();
-        return values()[rand.nextInt(Direction.values().length)];
-    }
-}
-
 public class Snake extends JPanel {
 
     private class EventAdapter extends KeyAdapter {
@@ -183,13 +171,13 @@ public class Snake extends JPanel {
             switch(direction)
             {
                 case LEFT:
-                    if ( obstacle[0] == head[0] - partSize
+                    if ( obstacle[0] + obstacle[2] == head[0]
                             && (obstacle[1] <= head[1]
                             && head[1] <= obstacle[1] + obstacle[3] - partSize))
                         return true;
                     break;
                 case UP:
-                    if ( obstacle[1] == head[1] - partSize
+                    if ( obstacle[1] + obstacle[3] == head[1]
                             && (obstacle[0] <= head[0]
                             && head[0] <= obstacle[0] + obstacle[2] - partSize))
                         return true;
@@ -234,25 +222,35 @@ public class Snake extends JPanel {
         return wallCollision() || tailCollision() || obstacleCollision(obstacles);
     }
 
-    public boolean collect(Fruit fruit)
+    public boolean collectFruit(Fruit fruit)
     {
         return (( head[0] == fruit.getPosition()[0]) && ( head[1] == fruit.getPosition()[1]));
     }
 
+    public boolean collectFrog(Frog frog)
+    {
+        return ((head[0] == frog.getPosition()[0] + frog.getSizeOffset()/2)
+                && (head[1] == frog.getPosition()[1] + frog.getSizeOffset()/2));
+    }
+
     public void grow(int partAmount)
     {
-        int [] twoLastPosDiff = new int [] {
-                body.get(length-1)[0] - body.get(length-2)[0],
-                body.get(length-1)[1] - body.get(length-2)[1]
-        };
+        for(int i = 0; i < partAmount; i++)
+        {
+            int [] twoLastPosDiff = new int [] {
+                    body.get(length-1)[0] - body.get(length-2)[0],
+                    body.get(length-1)[1] - body.get(length-2)[1]
+            };
 
-        int [] newPartPos = new int[] {
-                body.get(length-1)[0] + twoLastPosDiff[0],
-                body.get(length-1)[1] + twoLastPosDiff[1]
-        };
+            int [] newPartPos = new int[] {
+                    body.get(length-1)[0] + twoLastPosDiff[0],
+                    body.get(length-1)[1] + twoLastPosDiff[1]
+            };
 
-        body.add(newPartPos);
-        length += 1;
+            body.add(newPartPos);
+        }
+
+        length += partAmount;
     }
 
     public final int getLength() { return length; }

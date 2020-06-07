@@ -10,14 +10,13 @@ public class GameBoard extends JPanel {
     ArrayList<int[]> obstacles = new ArrayList<int[]>();
     int minObstacleLength = 3;
     int maxObstacleLength = Constants.SECTOR_GRID_AMOUNT_V - minObstacleLength;
-    int obstacleAmount = 10;
 
     public GameBoard(ArrayList<int[]> snakeBody)
     {
         System.out.println("H:"+Constants.GRID_AMOUNT_H+" V:"+Constants.GRID_AMOUNT_V);
-        for(int i = 0; i < Constants.SECTOR_AMOUNT_H; i+=2)
+        for(int i = 0; i < Constants.SECTOR_AMOUNT_H; i++)
         {
-            for(int j = 0; j < Constants.SECTOR_AMOUNT_V; j++)
+            for(int j = i % 2 == 0? 0 : 1; j < Constants.SECTOR_AMOUNT_V; j+=2)
             {
                 int [] sector = {i, j};
                 obstacles.add(initObstacle(snakeBody, sector));
