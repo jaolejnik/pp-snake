@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Frog extends Fruit {
 
     Direction [] direction = new Direction[2];
-    int sizeOffset = 0;
+    int sizeOffset = 4;
     int size = Constants.GRID_SIZE + sizeOffset;
     int [] step = new int[2];
 
@@ -68,7 +68,7 @@ public class Frog extends Fruit {
     public void move(long elapsedTime)
     {
         setStepValue();
-        System.out.println(elapsedTime);
+//        System.out.println(elapsedTime);
         if (elapsedTime % 15 == 0)
             position[0] += step[0];
         if (elapsedTime % 25 == 0)
@@ -77,4 +77,5 @@ public class Frog extends Fruit {
     }
 
     public int getSizeOffset() { return sizeOffset;}
+    public int getFrogSize() { return size;}
 }

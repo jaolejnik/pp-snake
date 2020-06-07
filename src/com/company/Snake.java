@@ -229,8 +229,10 @@ public class Snake extends JPanel {
 
     public boolean collectFrog(Frog frog)
     {
-        return ((head[0] == frog.getPosition()[0] + frog.getSizeOffset()/2)
-                && (head[1] == frog.getPosition()[1] + frog.getSizeOffset()/2));
+        System.out.println("SNAKE X:" + head[0] + " Y:" + head[1]);
+        System.out.println("FROG X:" + frog.getPosition()[0] + " Y:" + frog.getPosition()[1]);
+        return ((head[0] == frog.getPosition()[0] )
+                && (head[1] == frog.getPosition()[1] ));
     }
 
     public void grow(int partAmount)
