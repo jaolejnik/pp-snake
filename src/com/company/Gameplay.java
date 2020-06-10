@@ -9,8 +9,8 @@ public class Gameplay extends JPanel{
 
     int points = 0;
     boolean gameRunning = true;
+    long frogCollectedTime = 0;
     long startTime;
-    Timer timer;
     GameBoard board;
     Snake snake;
     Fruit fruit;
@@ -53,32 +53,53 @@ public class Gameplay extends JPanel{
         board.drawPoints(g, points);
         snake.draw(g);
         fruit.draw(g);
-        frog.draw(g);
+        if (frog != null)
+            frog.draw(g);
         repaint();
     }
 
     private void update()
     {
+
         long currentTime = System.currentTimeMillis();
+        long elapsedFrogTime = 0;
         long elapsedTime = currentTime - startTime;
+        elapsedTime = (int)elapsedTime/100;
+
+        if (frogCollectedTime != 0)
+        {
+            elapsedFrogTime = currentTime - frogCollectedTime;
+            elapsedFrogTime = (int)elapsedFrogTime/100;
+        }
+
 
         if (snake.checkCollision(board.getObstacles()))
             gameRunning = false;
         else
             snake.move();
-            frog.move(elapsedTime);
+
             if (snake.collectFruit(fruit))
             {
                 snake.grow(1);
                 points += 10;
                 fruit = new Fruit(snake.getBody(), board.getObstacles());
             }
-            if (snake.collectFrog(frog))
+
+            if (frog != null)
             {
-                snake.grow(2);
-                points += 25;
-                frog = new Frog(snake.getBody(), board.getObstacles());
+                frog.move(elapsedTime);
+                if (snake.collectFrog(frog))
+                {
+                    snake.grow(2);
+                    points += 25;
+                    frogCollectedTime = System.currentTimeMillis();
+                    frog = null;
+                }
             }
+
+            System.out.println(elapsedFrogTime);
+            if (frog == null && elapsedFrogTime == 100)
+                frog = new Frog(snake.getBody(), board.getObstacles());
     }
 
     public void loop()

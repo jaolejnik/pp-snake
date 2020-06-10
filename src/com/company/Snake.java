@@ -229,8 +229,8 @@ public class Snake extends JPanel {
 
     public boolean collectFrog(Frog frog)
     {
-        System.out.println("SNAKE X:" + head[0] + " Y:" + head[1]);
-        System.out.println("FROG X:" + frog.getPosition()[0] + " Y:" + frog.getPosition()[1]);
+//        System.out.println("SNAKE X:" + head[0] + " Y:" + head[1]);
+//        System.out.println("FROG X:" + frog.getPosition()[0] + " Y:" + frog.getPosition()[1]);
         return ((head[0] == frog.getPosition()[0] )
                 && (head[1] == frog.getPosition()[1] ));
     }

@@ -69,9 +69,9 @@ public class Frog extends Fruit {
     {
         setStepValue();
 //        System.out.println(elapsedTime);
-        if (elapsedTime % 15 == 0)
+        if (elapsedTime % 20 == 0)
             position[0] += step[0];
-        if (elapsedTime % 25 == 0)
+        if (elapsedTime % 35 == 0)
             position[1] += step[1];
         handleOutOfBounds();
     }
