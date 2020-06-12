@@ -1,11 +1,10 @@
 package com.company;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 public class Scoreboard extends JPanel {
 
@@ -13,6 +12,7 @@ public class Scoreboard extends JPanel {
     BufferedWriter output;
     String fileName;
     ArrayList<Integer> scores;
+    int newScore;
 
     public Scoreboard(String _fileName)
     {
@@ -46,8 +46,11 @@ public class Scoreboard extends JPanel {
 
     public void addNewScore(int score)
     {
+        setFocusable(true);
+        grabFocus();
         System.out.println(score);
         scores.add(score);
+        newScore = score;
     }
 
     public void sortScores()
@@ -78,4 +81,33 @@ public class Scoreboard extends JPanel {
         };
     }
 
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        setBackground(Color.BLACK);
+        display(g);
+    }
+    public void display(Graphics g)
+    {
+        g.setColor(Color.white);
+        g.setFont(new Font("Impact", Font.PLAIN, 42));
+        g.drawString(" YOUR SCORE",
+                Constants.WINDOW_WIDTH/4,
+                Constants.WINDOW_HEIGHT/10);
+        g.drawString(String.format("%06d", newScore),
+                Constants.WINDOW_WIDTH/3,
+                Constants.WINDOW_HEIGHT/10 + 45);
+        g.drawString(" HIGH  SCORES",
+                Constants.WINDOW_WIDTH/4,
+                Constants.WINDOW_HEIGHT/4);
+
+        g.setFont(new Font("Impact", Font.PLAIN, 36));
+        for(int i = 1; i <= 10; i++)
+        {
+            g.drawString(String.format("%02d", i) +". " + String.format("%06d", scores.get(i-1)),
+                    Constants.WINDOW_WIDTH/3,
+                    Constants.WINDOW_HEIGHT/4 + 45*i);
+        }
+        repaint();
+    }
 }

@@ -64,6 +64,13 @@ public class Gameplay extends JPanel{
                     Constants.BIG_BORDER_X + Constants.BIG_BORDER_WIDTH / 2,
                     Constants.BIG_BORDER_Y + Constants.BIG_BORDER_HEIGHT / 2);
         }
+        if (!gameRunning) {
+            g.setColor(Color.white);
+            g.setFont(new Font("Impact", Font.PLAIN, 64));
+            g.drawString("GAME OVER",
+                    Constants.BIG_BORDER_X + Constants.BIG_BORDER_WIDTH / 4,
+                    Constants.BIG_BORDER_Y + Constants.BIG_BORDER_HEIGHT / 2);
+        }
         repaint();
     }
 

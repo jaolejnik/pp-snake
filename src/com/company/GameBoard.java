@@ -82,13 +82,14 @@ public class GameBoard extends JPanel {
     {
 
         g.setColor(Color.white);
-        g.setFont(new Font("Impact", Font.PLAIN, 28));
-        g.drawString("POINTS",
-                Constants.SMALL_BORDER_X + Constants.GRID_SIZE,
-                (int)(Constants.SMALL_BORDER_Y+(Constants.SMALL_BORDER_HEIGHT/2.5)));
+        g.setFont(new Font("Impact", Font.PLAIN, 48));
+        g.drawString("SCORE:",
+                (int)(Constants.SMALL_BORDER_X + Constants.SMALL_BORDER_WIDTH/4),
+                (int)(Constants.SMALL_BORDER_Y+(Constants.SMALL_BORDER_HEIGHT/1.3)));
+
         g.drawString(String.format("%06d", points),
-                Constants.SMALL_BORDER_X + Constants.GRID_SIZE,
-                (int)(Constants.SMALL_BORDER_Y+(Constants.SMALL_BORDER_HEIGHT/1.25)));
+                (int)(Constants.SMALL_BORDER_X + Constants.SMALL_BORDER_WIDTH/1.8),
+                (int)(Constants.SMALL_BORDER_Y+(Constants.SMALL_BORDER_HEIGHT/1.3)));
     }
 
     private int [] generateRandPos(int [] sector, int [] orientation, int obstacleLength)
