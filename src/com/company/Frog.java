@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Frog extends Fruit {
+public class Frog extends Fruit{
 
     Direction [] direction = new Direction[2];
     int sizeOffset = 4;
@@ -68,14 +68,26 @@ public class Frog extends Fruit {
     public void move(long elapsedTime)
     {
         setStepValue();
-//        System.out.println(elapsedTime);
-        if (elapsedTime % 20 == 0)
+        if (elapsedTime % 15 == 0)
             position[0] += step[0];
-        if (elapsedTime % 35 == 0)
+        if (elapsedTime % 20 == 0)
             position[1] += step[1];
         handleOutOfBounds();
     }
 
+    public Runnable createRunnable(long elapsedTime)
+    {
+        Runnable frogRunnable = new Runnable() {
+            @Override
+            public void run() {
+                move(elapsedTime);
+            }
+        };
+        return frogRunnable;
+    }
+
     public int getSizeOffset() { return sizeOffset;}
     public int getFrogSize() { return size;}
+
+
 }

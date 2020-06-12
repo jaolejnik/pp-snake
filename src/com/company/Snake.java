@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Snake extends JPanel {
+public class Snake implements Runnable{
 
     private class EventAdapter extends KeyAdapter {
 
@@ -201,7 +201,6 @@ public class Snake extends JPanel {
 
     public void draw(Graphics g)
     {
-//        System.out.println(partSize);
         g.setColor(Color.lightGray);
         for(int i = 0; i < length; i++)
             g.fillRect(body.get(i)[0], body.get(i)[1], partSize-1, partSize-1);
@@ -229,8 +228,6 @@ public class Snake extends JPanel {
 
     public boolean collectFrog(Frog frog)
     {
-//        System.out.println("SNAKE X:" + head[0] + " Y:" + head[1]);
-//        System.out.println("FROG X:" + frog.getPosition()[0] + " Y:" + frog.getPosition()[1]);
         return ((head[0] == frog.getPosition()[0] )
                 && (head[1] == frog.getPosition()[1] ));
     }
@@ -253,6 +250,11 @@ public class Snake extends JPanel {
         }
 
         length += partAmount;
+    }
+
+    @Override
+    public void run() {
+        move();
     }
 
     public final int getLength() { return length; }

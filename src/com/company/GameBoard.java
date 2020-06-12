@@ -13,7 +13,6 @@ public class GameBoard extends JPanel {
 
     public GameBoard(ArrayList<int[]> snakeBody)
     {
-        System.out.println("H:"+Constants.GRID_AMOUNT_H+" V:"+Constants.GRID_AMOUNT_V);
         for(int i = 0; i < Constants.SECTOR_AMOUNT_H; i++)
         {
             for(int j = i % 2 == 0? 0 : 1; j < Constants.SECTOR_AMOUNT_V; j+=2)
